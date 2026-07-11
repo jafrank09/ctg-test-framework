@@ -1,4 +1,4 @@
-2# CTG Ready · Automated Test Suite
+# CTG Ready · Automated Test Suite
 
 Playwright + TypeScript test suite for [capitaltg.com](https://www.capitaltg.com), built as if establishing coverage from scratch for a professional-services / federal GovCon consultancy - not a SaaS product or e-commerce site.
 
