@@ -14,6 +14,7 @@ export class BasePage {
   readonly desktopNav: Locator;
   readonly dropdown: Locator;
   readonly mobileMenuButton: Locator;
+  readonly mobileNav: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -21,6 +22,10 @@ export class BasePage {
     this.desktopNav = page.locator('.nav-items');
     this.dropdown = page.getByRole('menu');
     this.mobileMenuButton = page.getByRole('button', { name: 'Navigation Menu' });
+    // The mobile drawer is a separate Mantine AppShell Navbar slot, not a toggled
+    // copy of .nav-items, so it needs its own locator to scope link clicks against
+    // (the footer repeats several of the same link labels further down the page).
+    this.mobileNav = page.locator('.mantine-AppShell-navbar');
   }
 
   async goto(path: string = '/') {
