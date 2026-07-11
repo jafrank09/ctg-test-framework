@@ -3,21 +3,23 @@ import { Page, Locator } from '@playwright/test';
 /**
  * Shared header/nav behavior present on every page of the site.
  * Page-specific classes extend this rather than duplicating nav locators.
+ *
+ * The header has two dropdown toggles ("Capabilities" and "About"), both built from the
+ * same Mantine Menu component (role="menu" / role="menuitem"), so one generic
+ * open/read mechanism covers both instead of duplicating locators per toggle.
  */
 export class BasePage {
   readonly page: Page;
   readonly logo: Locator;
   readonly desktopNav: Locator;
-  readonly capabilitiesToggle: Locator;
-  readonly capabilitiesDropdown: Locator;
+  readonly dropdown: Locator;
   readonly mobileMenuButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.logo = page.getByRole('link', { name: 'Capital Technology Group logo' });
     this.desktopNav = page.locator('.nav-items');
-    this.capabilitiesToggle = this.desktopNav.getByRole('link', { name: 'Capabilities' });
-    this.capabilitiesDropdown = page.getByRole('menu');
+    this.dropdown = page.getByRole('menu');
     this.mobileMenuButton = page.getByRole('button', { name: 'Navigation Menu' });
   }
 
@@ -25,14 +27,20 @@ export class BasePage {
     await this.page.goto(path, { waitUntil: 'networkidle' });
   }
 
-  /** Opens the desktop "Capabilities" dropdown and returns the link for a given capability. */
-  async openCapabilitiesMenu() {
-    await this.capabilitiesToggle.click();
-    await this.capabilitiesDropdown.waitFor({ state: 'visible' });
+  /** The top-level nav toggle/link with the given label, e.g. "Capabilities" or "About". */
+  navToggle(label: string): Locator {
+    return this.desktopNav.getByRole('link', { name: label });
   }
 
-  capabilityLink(name: string): Locator {
-    return this.capabilitiesDropdown.getByRole('menuitem', { name });
+  /** Opens a header dropdown ("Capabilities" or "About") and waits for its menu to render. */
+  async openDropdown(label: string) {
+    await this.navToggle(label).click();
+    await this.dropdown.waitFor({ state: 'visible' });
+  }
+
+  /** A link inside the currently-open dropdown, by its visible label. */
+  dropdownLink(name: string): Locator {
+    return this.dropdown.getByRole('menuitem', { name });
   }
 
   async openMobileMenu() {
