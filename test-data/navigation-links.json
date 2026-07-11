@@ -1,0 +1,19 @@
+{
+  "capabilities": [
+    { "name": "Agentic AI", "path": "/capabilities/agentic-ai" },
+    { "name": "Data Science", "path": "/capabilities/data-science" },
+    { "name": "DevSecOps", "path": "/capabilities/devsecops" },
+    { "name": "Digital Transformation", "path": "/capabilities/digital-transformation" },
+    { "name": "Information Security", "path": "/capabilities/information-security" }
+  ],
+  "aboutDropdownLinks": [
+    { "name": "Our Team", "path": "/about" },
+    { "name": "Contact Us", "path": "/contact-us" },
+    { "name": "Contract Vehicles", "path": "/contract-vehicles" },
+    { "name": "Certifications", "path": "/certifications" }
+  ],
+  "directNavLinks": [
+    { "name": "Our Work", "path": "/insights" },
+    { "name": "Labs", "path": "/labs" }
+  ]
+}
