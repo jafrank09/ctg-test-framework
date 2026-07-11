@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/pages';
+import { loadedImageStates } from './utils/images';
 
 /**
  * Assumption: Some sales could have a relationally drive component at this org. 
@@ -13,12 +14,7 @@ test.describe('About page team roster', () => {
   test('every team member photo has a name and actually loads', async ({ aboutPage }) => {
     await aboutPage.goto();
 
-    const photos = await aboutPage.teamMemberImages.evaluateAll((imgs) =>
-      (imgs as HTMLImageElement[]).map((img) => ({
-        alt: img.alt.trim(),
-        loaded: img.complete && img.naturalWidth > 0,
-      }))
-    );
+    const photos = await loadedImageStates(aboutPage.teamMemberImages);
 
     // This is more of a 'sanity test', not an exact count - any business roster grows/shrinks over time (and often specific
     // photo assets and their S3 links may differ across testing environments), so this only guards against the whole
