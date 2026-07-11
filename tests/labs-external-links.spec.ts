@@ -34,6 +34,9 @@ test.describe('Labs external product links', () => {
       let statusDescription = 'request failed (network error)';
 
       try {
+        // We simply shouldn't need this gross header here, but I am keeping it in case a target site
+        // does UA-sniffing/bot-blocking on other people's locals or in CI. Typically this would be
+        // deleted or abstracted away into a json/config file.
         const response = await request.get(link.href, {
           headers: {
             'User-Agent':
