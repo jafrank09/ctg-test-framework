@@ -3,7 +3,7 @@ import { test, expect } from '../fixtures/pages';
 /**
  * Assumption: For a services firm that links to a number of viewable open source tool sets users can demo/look at code for,
  * CTG Labs's work (live demos, GitHub repos, docs) are somewhat akin
- * to a real product a, evaluator can kick the tires on. A dead demo/repo link
+ * to a real product an evaluator can kick the tires on. A dead demo/repo link
  * might undercut a value pitch in a significant way. AS such, I think it's a high priorty to verify these links work
  
  * This test deliberately checks only *reachability* (HTTP status) via Playwright's built-in
@@ -15,7 +15,7 @@ import { test, expect } from '../fixtures/pages';
  * For the sake of brevity with this exercise, I'm opting to skip that, and simply
  * coding directly in this test script, which ordinarily I would not do. 
  * 
- * Test scripts in a good framework are ideally for invoking fixtures, methods and doing assertions, NOT creating them from scratch.
+ * Test scripts in a true enterprise framework are ideally for invoking fixtures, methods and doing assertions, NOT creating them from scratch.
  *
  * Link targets are read live from the page (LabsPage.externalLinkTargets) rather than
  * hardcoded, so a new Labs project should be covered automatically. Because the list size is
