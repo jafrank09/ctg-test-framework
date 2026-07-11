@@ -1,0 +1,16 @@
+{
+  "valid": {
+    "name": "QA Automation Suite",
+    "organization": "Automated Test - Please disregard and delete",
+    "email": "jafrank09+ctg-qa-automation@gmail.com",
+    "phone": "5555555555",
+    "message": "This is an automated end-to-end test submitted by a Playwright test suite as part of a QA takehome assignment. Feel free to delete this message."
+  },
+  "invalidEmail": {
+    "name": "QA Validation Probe",
+    "organization": "Automated Test - Please disregard and delete",
+    "email": "not-a-valid-email",
+    "phone": "5555555555",
+    "message": "Automated probe verifying client-side validation behavior. Feel free to delete this message."
+  }
+}
