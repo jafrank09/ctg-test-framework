@@ -392,7 +392,7 @@ npx playwright install chromium   <span class="hljs-comment"># add --with-deps o
 <li><code>tests/utils/images.ts</code> - one shared helper (<code>loadedImageStates</code>) for the &quot;images have alt text and actually loaded&quot; check, reused by the About roster and Certifications badge tests.</li>
 <li>Everything runs on stock <code>@playwright/test</code> - no additional HTTP/assertion libraries. External link reachability checks use Playwright's built-in <code>request</code> fixture.</li>
 </ul>
-<p>18 tests across 6 spec files, all currently passing on Chromium.</p>
+<p>18 tests across 6 spec files, all currently passing on Chromium. PLEASE NOTE: I have left extensive comments on most scripts that provide additional context on my thinking.</p>
 <h2 id="scenario-justification--prioritization">Scenario Justification &amp; Prioritization</h2>
 <p>CTG is a lead-gen professional services firm with no cart, product, or self-serve signup - &quot;business value&quot; here means <strong>pipeline generation</strong> (visits → contacts → contracts) and <strong>credibility signals</strong> a federal buyer checks before engaging. Scenarios are ranked by that lens, not by visual prominence.</p>
 <h3 id="1-contact-form-contact-formspects---highest-priority">1. Contact form (<code>contact-form.spec.ts</code>) - highest priority</h3>
