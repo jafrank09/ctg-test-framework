@@ -1,6 +1,6 @@
 # CTG Ready · Automated Test Suite
 
-Playwright + TypeScript test suite for [capitaltg.com](https://www.capitaltg.com), built as if establishing coverage from scratch for a professional-services / federal GovCon consultancy - not a SaaS product or e-commerce site.
+This is a Playwright + TypeScript test suite built for [capitaltg.com](https://www.capitaltg.com) as a demonstration of my test automation skills. I have built it as if I am establishing coverage from scratch for a professional-services firm that does Government contract work.
 
 ## Setup & Running Tests
 
