@@ -7,7 +7,10 @@ import contactFormData from '../test-data/contact-form.json';
  * is of extremely high business value, and should be an early & high priority for testing prioritization.
  */
 test.describe('Contact form', () => {
-  test('submits successfully with valid data and shows a success confirmation', async ({ contactPage }) => {
+  // Skipped by default: this is a REAL end-to-end submission (real email sent through the live
+  // contact form, no sandbox/dummy routing exists yet - see note below). Kept in the suite
+  // intentionally rather than deleted; remove `.skip` to run it deliberately.
+  test.skip('submits successfully with valid data and shows a success confirmation', async ({ contactPage }) => {
     //Note: this is a REAL end-to-end submission, so I have opted to give this test a bit more 'breathing room' than the default timeout before treating it as failed.
     //playwright allows for extremely fine-grained control over test timeouts, from the global level, down to the level of individual tests and even individual steps within a test.
     //a good test automation framework uses that flexability from the outset rather than relying on a single, global timeout

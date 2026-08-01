@@ -4,6 +4,7 @@ import { ContactPage } from '../pages/ContactPage';
 import { AboutPage } from '../pages/AboutPage';
 import { LabsPage } from '../pages/LabsPage';
 import { TrustPage } from '../pages/TrustPage';
+import { ApiService } from '../services/ApiService';
 
 type PageFixtures = {
   homePage: HomePage;
@@ -12,6 +13,7 @@ type PageFixtures = {
   labsPage: LabsPage;
   certificationsPage: TrustPage;
   contractVehiclesPage: TrustPage;
+  apiService: ApiService;
 };
 
 /**
@@ -36,6 +38,11 @@ export const test = base.extend<PageFixtures>({
   },
   contractVehiclesPage: async ({ page }, use) => {
     await use(new TrustPage(page, '/contract-vehicles'));
+  },
+  apiService: async ({}, use) => {
+    const service = await ApiService.create();
+    await use(service);
+    await service.dispose();
   },
 });
 

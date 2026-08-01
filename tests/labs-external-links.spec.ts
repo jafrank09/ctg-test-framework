@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/pages';
+import apiHeaders from '../test-data/api-headers.json';
 
 /**
  * Assumption: For a services firm that links to a number of viewable open source tool sets users can demo/look at code for,
@@ -6,16 +7,13 @@ import { test, expect } from '../fixtures/pages';
  * to a real product an evaluator can kick the tires on. A dead demo/repo link
  * might undercut a value pitch in a significant way. AS such, I think it's a high priorty to verify these links work
  
- * This test deliberately checks only *reachability* (HTTP status) via Playwright's built-in
- * `request` capabilities, rather than fully navigating and asserting on GitHub/demo page
- * content - we shouldn't be QA'ing third-party sites we don't own. 
- * 
- * 
- * IMPORTANT NOTE: In a more polished setting, we'd want to abstract ALL requests we make in a test into a seperate api service class (similar to the POM files we have here)
- * For the sake of brevity with this exercise, I'm opting to skip that, and simply
- * coding directly in this test script, which ordinarily I would not do. 
- * 
- * Test scripts in a true enterprise framework are ideally for invoking fixtures, methods and doing assertions, NOT creating them from scratch.
+ * This test deliberately checks only *reachability* (HTTP status) via the shared
+ * `apiService` fixture, rather than fully navigating and asserting on GitHub/demo page
+ * content - we shouldn't be QA'ing third-party sites we don't own.
+ *
+ * Request construction now lives in services/ApiService.ts (the API-layer counterpart to
+ * the page objects) instead of inline here - this spec only invokes it and asserts, the
+ * same division of labor the UI specs already follow with fixtures/pages.ts.
  *
  * Link targets are read live from the page (LabsPage.externalLinkTargets) rather than
  * hardcoded, so a new Labs project should be covered automatically. Because the list size is
@@ -23,34 +21,21 @@ import { test, expect } from '../fixtures/pages';
  * parameterized test per link), so one dead link doesn't hide the status of the rest.
  */
 test.describe('Labs external product links', () => {
-  test('every external Labs link (live demos, GitHub repos, docs) is reachable', async ({ labsPage, request }) => {
+  test('every external Labs link (live demos, GitHub repos, docs) is reachable', async ({ labsPage, apiService }) => {
     await labsPage.goto();
     const links = await labsPage.externalLinkTargets();
 
     expect(links.length).toBeGreaterThan(0);
 
     for (const link of links) {
-      let ok = false;
-      let statusDescription = 'request failed (network error)';
+      const result = await apiService.get(link.href, {
+        // We simply shouldn't need this header here, but keeping it in case a target site
+        // does UA-sniffing/bot-blocking on other people's locals or in CI.
+        headers: apiHeaders.browserLikeUserAgent,
+        timeout: 15_000,
+      });
 
-      try {
-        // We simply shouldn't need this gross header here, but I am keeping it in case a target site
-        // does UA-sniffing/bot-blocking on other people's locals or in CI. Typically this would be
-        // deleted or abstracted away into a json/config file.
-        const response = await request.get(link.href, {
-          headers: {
-            'User-Agent':
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36',
-          },
-          timeout: 15_000,
-        });
-        ok = response.ok();
-        statusDescription = `HTTP ${response.status()}`;
-      } catch (error) {
-        statusDescription = `network error: ${(error as Error).message}`;
-      }
-
-      expect.soft(ok, `"${link.text}" (${link.href}) - ${statusDescription}`).toBeTruthy();
+      expect.soft(result.ok, `"${link.text}" (${link.href}) - ${result.statusDescription}`).toBeTruthy();
     }
   });
 });
