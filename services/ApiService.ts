@@ -39,16 +39,8 @@ export class ApiService {
     await this.context.dispose();
   }
 
-  async get(url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
-    return this.call('GET', url, options);
-  }
-
-  async post(url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
-    return this.call('POST', url, options);
-  }
-
   /** Single place that turns a verb + url into a normalized result, so every call site gets identical network-error handling. */
-  private async call(method: 'GET' | 'POST', url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
+  private async call(method: 'GET' | 'POST' | 'DELETE' | 'PATCH', url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
     try {
       const response = await this.context.fetch(url, {
         method,
@@ -60,5 +52,21 @@ export class ApiService {
     } catch (error) {
       return { ok: false, status: null, statusDescription: `network error: ${(error as Error).message}` };
     }
+  }
+
+  async get(url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
+    return this.call('GET', url, options);
+  }
+
+  async post(url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
+    return this.call('POST', url, options);
+  }
+
+  async delete(url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
+    return this.call('DELETE', url, options);
+  }
+
+  async patch(url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
+    return this.call('PATCH', url, options);
   }
 }
