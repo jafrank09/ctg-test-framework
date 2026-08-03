@@ -39,7 +39,9 @@ export class ApiService {
     await this.context.dispose();
   }
 
-  /** Single place that turns a verb + url into a normalized result, so every call site gets identical network-error handling. */
+  /** Single place that turns a verb + url into a normalized result, so every call site gets identical network-error handling. 
+   * NB: I've opted to keep the api call options param agnostic for the time being, if an org enforces a similar pattern across query/string params, body, etc, we can adjust that as needed.
+  */
   private async call(method: 'GET' | 'POST' | 'DELETE' | 'PATCH', url: string, options?: ApiCallOptions): Promise<ApiCallResult> {
     try {
       const response = await this.context.fetch(url, {
